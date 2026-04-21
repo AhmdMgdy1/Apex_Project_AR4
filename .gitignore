@@ -1,0 +1,77 @@
+# =========================
+# ROS 2 Workspace
+# =========================
+build/
+install/
+log/
+
+# Colcon / ament
+.colcon/
+.colcon_install_layout
+
+# =========================
+# Python
+# =========================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+*.egg
+dist/
+.eggs/
+
+# Virtual environments
+venv/
+.env/
+.venv/
+
+# =========================
+# C++ / Build Systems
+# =========================
+*.o
+*.so
+*.a
+*.out
+*.exe
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# =========================
+# ROS specific
+# =========================
+*.log
+*.bag
+*.db3
+*.sqlite3
+
+# =========================
+# IDEs / Editors
+# =========================
+
+# VS Code
+.vscode/
+
+# CLion / JetBrains
+.idea/
+cmake-build-*/
+
+# Eclipse
+.project
+.cproject
+
+# =========================
+# OS Files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Misc
+# =========================
+*.swp
+*.bak
+*.tmp
+*.orig
