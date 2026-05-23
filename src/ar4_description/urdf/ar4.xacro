@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:add_link name="base_link" mass="0.97407"
+        inr_xyz="-0.039732 -9.8037E-07 0.023083" inr_rpy="0 0 0"
+        vis_xyz="0 0 0.02" vis_rpy="0 0 0"
+        col_xyz="0 0 0" col_rpy="0 0 0"
+        ixx="0.0010955" ixy="-4.0431E-07" ixz="2.784E-06"
+        iyy="0.00185"   iyz="-6.8569E-08"
+        izz="0.0026765" />
+
+  <xacro:add_link name="1st_Link" mass="0.71612"
+        inr_xyz="0.053197 -0.026774 0.045798" inr_rpy="0 0 0"
+        vis_xyz="0 0 0" vis_rpy="0 0 0"
+        col_xyz="0 0 0" col_rpy="0 0 0"
+        ixx="0.00047298" ixy="7.4582E-06" ixz="-3.5739E-05"
+        iyy="0.00066757" iyz="2.1083E-06"
+        izz="0.00047614" />
+
+  <xacro:joint_revolute name="Joint_0" parent="base_link" child="1st_Link"
+    origin_xyz="0 0 0.0814" origin_rpy="0 0 0"
+    axis_xyz="0 0 -1" limit_lower="-2.9671" limit_upper="2.9671"
+    limit_effort="4" limit_velocity="3.1" />
+  
+  <xacro:add_link name="2nd_Link" mass="0.56391"
+        inr_xyz="-0.00034194 -0.12187 0.0084113" inr_rpy="0 0 0"
+        vis_xyz="0 0 0" vis_rpy="0 0 0"
+        col_xyz="0 0 0" col_rpy="0 0 0"
+        ixx="0.0025702" ixy="4.6265E-06" ixz="-6.9851E-10"
+        iyy="0.00021525" iyz="5.0969E-08"
+        izz="0.0027115" />
+        
+  <xacro:joint_revolute name="Joint_1" parent="1st_Link" child="2nd_Link"
+    origin_xyz="0.064201 0.03096 0.069869" origin_rpy="-1.5708 0 0"
+    axis_xyz="0 0 1" limit_lower="-0.733" limit_upper="1.5708"
+    limit_effort="57" limit_velocity="0.63" />
+
+  <xacro:add_link name="3rd_Link" mass="0.23454"
+        inr_xyz="0.0004202 0.019335 -0.073118" inr_rpy="0 0 0"
+        vis_xyz="0 0 0" vis_rpy="0 0 0"
+        col_xyz="0 0 0" col_rpy="0 0 0"
+        ixx="5.9577E-05" ixy="-5.1225E-07" ixz="-2.212E-06"
+        iyy="7.6708E-05" iyz="-6.5299E-08"
+        izz="8.0525E-05" />
+  
+  <xacro:joint_revolute name="Joint_2" parent="2nd_Link" child="3rd_Link"
+    origin_xyz="-5.5893E-05 -0.30501 0.049315" origin_rpy="0 0 0"
+    axis_xyz="0 0 1" limit_lower="-1.5533" limit_upper="0.9076"
+    limit_effort="20" limit_velocity="0.63" />
+  
+  <xacro:add_link name="4th_Link" mass="0.37898"
+        inr_xyz="-0.00018344 -0.001475 0.15428" inr_rpy="0 0 0"
+        vis_xyz="0 0 0" vis_rpy="0 0 0"
+        col_xyz="0 0 0" col_rpy="0 0 0"
+        ixx="0.00061231" ixy="2.1902E-07" ixz="-3.0125E-07"
+        iyy="0.00064923" iyz="4.9052E-07"
+        izz="0.00010656" />
+
+  <xacro:joint_revolute name="Joint_3" parent="3rd_Link" child="4th_Link"
+    origin_xyz="-0.078271 0 -0.086625" origin_rpy="-1.5708 0 -1.5708"
+    axis_xyz="0 0 -1" limit_lower="-2.8798" limit_upper="2.8798"
+    limit_effort="1.6" limit_velocity="2" />
+  
+  <xacro:add_link name="5th_Link" mass="0.12943"
+        inr_xyz="-0.011337 1.1704E-05 -0.040849" inr_rpy="0 0 0"
+        vis_xyz="0 0 0" vis_rpy="0 0 0"
+        col_xyz="0 0 0" col_rpy="0 0 ${-pi/2.0}"
+        ixx="2.3634E-05" ixy="3.2989E-09" ixz="-4.8512E-09"
+        iyy="2.198E-05" iyz="7.5032E-09"
+        izz="2.6067E-05" />
+
+  <xacro:joint_revolute name="Joint_4" parent="4th_Link" child="5th_Link"
+    origin_xyz="0 -0.044198 0.3003" origin_rpy="1.5708 -1.5708 0"
+    axis_xyz="0 0 -1" limit_lower="-1.8326" limit_upper="1.8326"
+    limit_effort="81" limit_velocity="0.16" />
+  
+  <xacro:add_link name="6th_Link" mass="0.013863"
+        inr_xyz="1.6473E-09 2.9288E-10 -0.0068568" inr_rpy="0 0 0"
+        vis_xyz="0 0 0" vis_rpy="0 0 0"
+        col_xyz="0 0 0" col_rpy="0 0 0"
+        ixx="1.7157E-06" ixy="-3.0585E-13" ixz="-6.3369E-09"
+        iyy="1.3596E-06" iyz="5.7102E-14"
+        izz="2.4332E-06" />
+
+  <xacro:joint_revolute name="Joint_5" parent="5th_Link" child="6th_Link"
+    origin_xyz="0.0359 0 -0.045781" origin_rpy="1.5708 0 1.5708"
+    axis_xyz="0 0 1" limit_lower="-2.7053" limit_upper="2.7053"
+    limit_effort="2.4" limit_velocity="1.65" />
+  
+
+</robot>

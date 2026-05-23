@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <material name="grey">
+    <color rgba="0.79216 0.81961 0.93333 1" />
+  </material>
+
+  <xacro:macro name="add_link" params="name mass 
+        inr_xyz inr_rpy vis_xyz vis_rpy col_xyz 
+        col_rpy ixx ixy ixz iyy iyz izz">
+
+    <link name="${name}">
+      <inertial>
+        <origin xyz="${inr_xyz}" rpy="${inr_rpy}" />
+        <mass value="${mass}" />
+        <inertia ixx="${ixx}" ixy="${ixy}" ixz="${ixz}"
+                 iyy="${iyy}" iyz="${iyz}"
+                 izz="${izz}" />
+      </inertial>
+      <visual>
+        <origin xyz="${vis_xyz}" rpy="${vis_rpy}" />
+        <geometry>
+          <mesh filename="package://ar4_description/meshes/visual/${name}.STL" />
+        </geometry>
+        <material name="grey" />
+      </visual>
+      <collision>
+        <origin xyz="${col_xyz}" rpy="${col_rpy}" />
+        <geometry>
+          <mesh filename="package://ar4_description/meshes/collision/${name}.STL" />
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="joint_revolute" params="name parent child origin_xyz origin_rpy axis_xyz limit_lower limit_upper limit_effort limit_velocity">
+    <joint name="${name}" type="revolute">
+      <origin xyz="${origin_xyz}" rpy="${origin_rpy}" />
+      <parent link="${parent}" />
+      <child link="${child}" />
+      <axis xyz="${axis_xyz}" />
+      <limit lower="${limit_lower}" upper="${limit_upper}"
+             effort="${limit_effort}" velocity="${limit_velocity}" />
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="joint_fixed" params="name parent child origin_xyz origin_rpy">
+    <joint name="${name}" type="fixed">
+      <origin xyz="${origin_xyz}" rpy="${origin_rpy}" />
+      <parent link="${parent}" />
+      <child link="${child}" />
+    </joint>
+  </xacro:macro>
+
+</robot>
