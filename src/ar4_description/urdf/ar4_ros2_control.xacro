@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!--
+    AR4 ros2_control Hardware Interface
+    ====================================
+    This file defines the ros2_control tag for the AR4 robot arm.
+
+    Usage modes (swap the <plugin> tag):
+      Simulation / Fake:  mock_components/GenericSystem        ← start here
+      Real Hardware:      ar4_hardware/AR4HardwareInterface    ← Step 3 (later)
+
+    Include this file in your main.urdf.xacro BEFORE closing </robot>:
+      <xacro:include filename="$(find your_pkg)/urdf/ar4_ros2_control.xacro"/>
+      <xacro:ar4_ros2_control use_mock_hardware="true"/>
+  -->
+
+  <xacro:macro name="ar4_ros2_control" params="use_mock_hardware:=true">
+
+    <ros2_control name="AR4System" type="system">
+
+      <hardware>
+        <xacro:if value="${use_mock_hardware}">
+          <!-- ✅ FAKE / SIMULATION MODE — no real robot needed -->
+          <plugin>mock_components/GenericSystem</plugin>
+          <!-- This makes joints move instantly to commanded position.
+               Perfect for testing MoveIt2 and trajectory planning. -->
+        </xacro:if>
+
+        <xacro:unless value="${use_mock_hardware}">
+          <!-- 🔌 REAL HARDWARE MODE — swap in when Arduino bridge is ready -->
+          <plugin>ar4_hardware/AR4HardwareInterface</plugin>
+          <param name="serial_port">/dev/ttyUSB0</param>
+          <param name="baud_rate">115200</param>
+          <!-- You will create this plugin in Step 3 of the project -->
+        </xacro:unless>
+      </hardware>
+
+      <!-- ═══════════════════════════════════════════════════
+           Joint 0 — Base rotation (yaw)
+           Limits: -2.9671 to +2.9671 rad  (~±170°)
+           ═══════════════════════════════════════════════════ -->
+      <joint name="Joint_0">
+        <command_interface name="position">
+          <param name="min">-2.9671</param>
+          <param name="max">2.9671</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+      </joint>
+
+      <!-- ═══════════════════════════════════════════════════
+           Joint 1 — Shoulder pitch
+           Limits: -0.733 to +1.5708 rad
+           ═══════════════════════════════════════════════════ -->
+      <joint name="Joint_1">
+        <command_interface name="position">
+          <param name="min">-0.733</param>
+          <param name="max">1.5708</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+      </joint>
+
+      <!-- ═══════════════════════════════════════════════════
+           Joint 2 — Elbow pitch
+           Limits: -1.5533 to +0.9076 rad
+           ═══════════════════════════════════════════════════ -->
+      <joint name="Joint_2">
+        <command_interface name="position">
+          <param name="min">-1.5533</param>
+          <param name="max">0.9076</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+      </joint>
+
+      <!-- ═══════════════════════════════════════════════════
+           Joint 3 — Forearm roll
+           Limits: -2.8798 to +2.8798 rad  (~±165°)
+           ═══════════════════════════════════════════════════ -->
+      <joint name="Joint_3">
+        <command_interface name="position">
+          <param name="min">-2.8798</param>
+          <param name="max">2.8798</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+      </joint>
+
+      <!-- ═══════════════════════════════════════════════════
+           Joint 4 — Wrist pitch
+           Limits: -1.8326 to +1.8326 rad  (~±105°)
+           ═══════════════════════════════════════════════════ -->
+      <joint name="Joint_4">
+        <command_interface name="position">
+          <param name="min">-1.8326</param>
+          <param name="max">1.8326</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+      </joint>
+
+      <!-- ═══════════════════════════════════════════════════
+           Joint 5 — Wrist roll (end effector / paint gun spin)
+           Limits: -2.7053 to +2.7053 rad  (~±155°)
+           ═══════════════════════════════════════════════════ -->
+      <joint name="Joint_5">
+        <command_interface name="position">
+          <param name="min">-2.7053</param>
+          <param name="max">2.7053</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+      </joint>
+
+    </ros2_control>
+
+  </xacro:macro>
+
+</robot>
