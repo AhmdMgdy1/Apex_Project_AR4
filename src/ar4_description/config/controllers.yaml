@@ -1,0 +1,91 @@
+# ============================================================
+#  AR4 Robot Arm — ros2_control Controllers Configuration
+#  File: config/controllers.yaml
+#
+#  Two controllers are defined:
+#   1. joint_state_broadcaster  — publishes /joint_states (always needed)
+#   2. joint_trajectory_controller — accepts trajectory goals (used by MoveIt2)
+#
+#  Load & activate order matters:
+#   joint_state_broadcaster  → FIRST
+#   joint_trajectory_controller → SECOND
+# ============================================================
+
+controller_manager:
+  ros__parameters:
+
+    # How often the controller manager update loop runs (Hz)
+    update_rate: 100
+
+    # ── Controller registrations ──────────────────────────────
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+
+# ============================================================
+#  Joint State Broadcaster
+#  Reads state_interfaces and publishes to /joint_states
+#  No extra params needed — it auto-discovers all joints.
+# ============================================================
+joint_state_broadcaster:
+  ros__parameters:
+    use_local_topics: false   # publish on global /joint_states
+
+
+# ============================================================
+#  Joint Trajectory Controller
+#  Accepts FollowJointTrajectory action goals (from MoveIt2,
+#  or your own trajectory publisher nodes).
+# ============================================================
+joint_trajectory_controller:
+  ros__parameters:
+
+    # Must match joint names EXACTLY as defined in your URDF
+    joints:
+      - Joint_0
+      - Joint_1
+      - Joint_2
+      - Joint_3
+      - Joint_4
+      - Joint_5
+
+    # We command position; the mock hardware accepts this directly.
+    # For real hardware you can add "velocity" here too later.
+    command_interfaces:
+      - position
+
+    state_interfaces:
+      - position
+      - velocity
+
+    # Send a goal_time_tolerance of 0 = accept any arrival time
+    # Useful during testing so goals don't get rejected for being slow
+    allow_partial_joints_goal: false
+
+    # PID gains — used when command_interface = "effort" or "velocity".
+    # For mock_components/position control these are ignored,
+    # but kept here for when you switch to real hardware.
+    gains:
+      Joint_0: { p: 100.0, i: 0.01, d: 10.0, i_clamp: 1.0 }
+      Joint_1: { p: 100.0, i: 0.01, d: 10.0, i_clamp: 1.0 }
+      Joint_2: { p: 100.0, i: 0.01, d: 10.0, i_clamp: 1.0 }
+      Joint_3: { p: 50.0,  i: 0.01, d: 5.0,  i_clamp: 1.0 }
+      Joint_4: { p: 50.0,  i: 0.01, d: 5.0,  i_clamp: 1.0 }
+      Joint_5: { p: 50.0,  i: 0.01, d: 5.0,  i_clamp: 1.0 }
+
+    # Time from receiving goal to starting execution
+    action_monitor_rate: 20.0
+
+    # Tolerances — tighten these when using real hardware
+    constraints:
+      stopped_velocity_tolerance: 0.01
+      goal_time: 0.0           # 0 = no time limit
+      Joint_0: { trajectory: 0.1, goal: 0.01 }
+      Joint_1: { trajectory: 0.1, goal: 0.01 }
+      Joint_2: { trajectory: 0.1, goal: 0.01 }
+      Joint_3: { trajectory: 0.1, goal: 0.01 }
+      Joint_4: { trajectory: 0.1, goal: 0.01 }
+      Joint_5: { trajectory: 0.1, goal: 0.01 }

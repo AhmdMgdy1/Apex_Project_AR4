@@ -3,6 +3,8 @@
 
   <xacro:include filename="common_properties.xacro" />
   <xacro:include filename="ar4.xacro" />
+  <xacro:include filename="$(find ar4_description)/urdf/ar4_ros2_control.xacro"/>
+  <xacro:ar4_ros2_control use_mock_hardware="true"/>
   <!-- <xacro:include filename="my_robot_gazebo.xacro" /> 
     <link name="world"/>
    <xacro:joint_fixed name="world_fixed_joint" parent="world" child="base_link"
