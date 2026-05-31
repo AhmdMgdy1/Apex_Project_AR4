@@ -1,0 +1,23 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: ar4_description
+    relative_path: urdf/ar4.urdf.xacro
+  srdf:
+    relative_path: config/AR4.srdf
+  package_settings:
+    author_name: ahmed
+    author_email: ahmed@todo.com
+    generated_timestamp: 1780152187
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+  modified_urdf:
+    xacros:
+      - control_xacro
+  control_xacro:
+    command:
+      - position
+    state:
+      - position

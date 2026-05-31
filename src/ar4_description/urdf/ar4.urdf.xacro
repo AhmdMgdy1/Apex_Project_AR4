@@ -1,13 +1,168 @@
 <?xml version="1.0"?>
-<robot name="my_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="AR4" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+  <!-- Import common properties and macros -->
   <xacro:include filename="common_properties.xacro" />
-  <xacro:include filename="ar4.xacro" />
-  <xacro:include filename="$(find ar4_description)/urdf/ar4_ros2_control.xacro"/>
-  <xacro:ar4_ros2_control use_mock_hardware="true"/>
-  <!-- <xacro:include filename="my_robot_gazebo.xacro" /> 
-    <link name="world"/>
-   <xacro:joint_fixed name="world_fixed_joint" parent="world" child="base_link"
-    origin_xyz="0 0 0" origin_rpy="0 0 0" />  -->
+
+  <!-- Import arm description -->
+  <xacro:include filename="arm.xacro" />
   
+  <!-- ═══════════════════════════════════════════════════════
+       ROS2_CONTROL — conditional on gazebo arg
+       ═══════════════════════════════════════════════════════ -->
+  <xacro:if value="$(arg gazebo)">
+
+    <!-- Gazebo physics hardware interface -->
+    <ros2_control name="GazeboSystem" type="system">
+      <hardware>
+        <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+      </hardware>
+
+      <joint name="Joint_0">
+        <command_interface name="position">
+          <param name="min">-2.9671</param>
+          <param name="max">2.9671</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <joint name="Joint_1">
+        <command_interface name="position">
+          <param name="min">-0.733</param>
+          <param name="max">1.5708</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <joint name="Joint_2">
+        <command_interface name="position">
+          <param name="min">-1.5533</param>
+          <param name="max">0.9076</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <joint name="Joint_3">
+        <command_interface name="position">
+          <param name="min">-2.8798</param>
+          <param name="max">2.8798</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <joint name="Joint_4">
+        <command_interface name="position">
+          <param name="min">-1.8326</param>
+          <param name="max">1.8326</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <joint name="Joint_5">
+        <command_interface name="position">
+          <param name="min">-2.7053</param>
+          <param name="max">2.7053</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="effort"/>
+      </joint>
+
+    </ros2_control>
+
+    <!-- Gazebo plugin that loads gz_ros2_control -->
+    <gazebo>
+      <plugin
+          filename="gz_ros2_control-system"
+          name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+        <parameters>$(find ar4_description)/config/controllers.yaml</parameters>
+      </plugin>
+    </gazebo>
+
+  </xacro:if>
+
+  <!-- ═══════════════════════════════════════════════════════
+       FAKE / MOCK hardware (no Gazebo)
+       ═══════════════════════════════════════════════════════ -->
+  <xacro:unless value="$(arg gazebo)">
+
+    <ros2_control name="Arm" type="system">
+      <hardware>
+        <plugin>mock_components/GenericSystem</plugin>
+      </hardware>
+
+      <joint name="Joint_0">
+        <command_interface name="position">
+          <param name="min">-2.9671</param>
+          <param name="max">2.9671</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+         
+      </joint>
+
+      <joint name="Joint_1">
+        <command_interface name="position">
+          <param name="min">-0.733</param>
+          <param name="max">1.5708</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+         
+      </joint>
+
+      <joint name="Joint_2">
+        <command_interface name="position">
+          <param name="min">-1.5533</param>
+          <param name="max">0.9076</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+         
+      </joint>
+
+      <joint name="Joint_3">
+        <command_interface name="position">
+          <param name="min">-2.8798</param>
+          <param name="max">2.8798</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+         
+      </joint>
+
+      <joint name="Joint_4">
+        <command_interface name="position">
+          <param name="min">-1.8326</param>
+          <param name="max">1.8326</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+         
+      </joint>
+
+      <joint name="Joint_5">
+        <command_interface name="position">
+          <param name="min">-2.7053</param>
+          <param name="max">2.7053</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+         
+      </joint>
+
+    </ros2_control>
+
+  </xacro:unless>
+
 </robot>

@@ -1,14 +1,27 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+  <xacro:property name="PI" value="3.14159"/>
+  <xacro:property name="effort" value="30.0"/>
+  <xacro:property name="velocity" value="10.0"/>
+  <xacro:arg name="gazebo" default="true"/>
+
   <material name="grey">
     <color rgba="0.79216 0.81961 0.93333 1" />
   </material>
+  
+  <material name="blue">
+    <color rgba="0 0 0.5 1" />
+  </material>
 
+  
+
+  <!-- ═══════════════════════════════════════════════════════
+       MACROS
+       ═══════════════════════════════════════════════════════ -->
   <xacro:macro name="add_link" params="name mass 
         inr_xyz inr_rpy vis_xyz vis_rpy col_xyz 
         col_rpy ixx ixy ixz iyy iyz izz">
-
     <link name="${name}">
       <inertial>
         <origin xyz="${inr_xyz}" rpy="${inr_rpy}" />
@@ -41,14 +54,6 @@
       <axis xyz="${axis_xyz}" />
       <limit lower="${limit_lower}" upper="${limit_upper}"
              effort="${limit_effort}" velocity="${limit_velocity}" />
-    </joint>
-  </xacro:macro>
-
-  <xacro:macro name="joint_fixed" params="name parent child origin_xyz origin_rpy">
-    <joint name="${name}" type="fixed">
-      <origin xyz="${origin_xyz}" rpy="${origin_rpy}" />
-      <parent link="${parent}" />
-      <child link="${child}" />
     </joint>
   </xacro:macro>
 
