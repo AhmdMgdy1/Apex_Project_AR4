@@ -4,7 +4,7 @@
         value="$(find-pkg-share ar4_description)/urdf/ar4.urdf.xacro"/>
 
     <let name="rviz_config_path" 
-        value="$(find-pkg-share ar4_description)/rviz/urdf_config.rviz"/> 
+        value="$(find-pkg-share ar4_description)/rviz/ar4.rviz"/> 
 
     <node pkg="robot_state_publisher" exec="robot_state_publisher">
         <param name="robot_description" value="$(command 'xacro $(var urdf_path)')"/>
