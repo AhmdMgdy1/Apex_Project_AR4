@@ -1,3 +1,4 @@
+<!-- How to Run : ros2 launch ar4_description display.launch.xml -->
 <launch>
 
     <let name="urdf_path" 
